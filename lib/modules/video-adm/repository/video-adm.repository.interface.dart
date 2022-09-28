@@ -21,8 +21,9 @@ class SaveVideoInputDTO {
   String name;
   int duration;
   String url;
+  String thumbnailUrl;
 
-  SaveVideoInputDTO({ required this.channelId, required this.name, required this.duration, required this.url });
+  SaveVideoInputDTO({ required this.channelId, required this.name, required this.duration, required this.url, required this.thumbnailUrl });
 
   Map<String, dynamic> toMap() {
     return {
@@ -30,11 +31,27 @@ class SaveVideoInputDTO {
       'name': name,
       'duration': duration,
       'channelId': channelId,
+      'thumbnailUrl': thumbnailUrl,
     };
   }
 }
 
+class UploadThumbnailOutputDTO {
+  String thumbnailUrl;
+
+  UploadThumbnailOutputDTO({ required this.thumbnailUrl });
+}
+
+class UploadThumbnailInputDTO {
+  File file;
+  String channelId;
+  String name;
+
+  UploadThumbnailInputDTO({ required this.file, required this.channelId, required this.name });
+}
+
 abstract class IVideoAdmRepository {
-  Future<UploadVideoOutputDTO> uploadVideo(UploadVideoInputDTO dto);
   Future<Video> saveVideo(SaveVideoInputDTO dto);
+  Future<UploadVideoOutputDTO> uploadVideo(UploadVideoInputDTO dto);
+  Future<UploadThumbnailOutputDTO> uploadThumbnail(UploadThumbnailInputDTO dto);
 }

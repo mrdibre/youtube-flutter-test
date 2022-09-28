@@ -2,7 +2,6 @@ import 'package:youtube_getx/modules/video-adm/domain/video.dart';
 import 'package:youtube_getx/modules/video-adm/repository/video-adm.repository.interface.dart';
 import 'package:youtube_getx/modules/video-adm/usecase/upload-video.usecase.interface.dart';
 
-// TODO: Refactor in two use cases (UploadVideoUseCase + SaveVideoUseCase)
 class UploadVideoUseCase implements IUploadVideo {
   late IVideoAdmRepository _videoAdmRepository;
 
@@ -20,12 +19,21 @@ class UploadVideoUseCase implements IUploadVideo {
       )
     );
 
+    var uploadThumbnailOutput = await _videoAdmRepository.uploadThumbnail(
+      UploadThumbnailInputDTO(
+          file: dto.thumbnail,
+          channelId: dto.channelId,
+          name: dto.name
+      )
+    );
+
     var video = await _videoAdmRepository.saveVideo(
       SaveVideoInputDTO(
         name: dto.name,
         duration: dto.duration,
         channelId: dto.channelId,
         url: uploadVideoOutput.videoUrl,
+        thumbnailUrl: uploadThumbnailOutput.thumbnailUrl,
       )
     );
 

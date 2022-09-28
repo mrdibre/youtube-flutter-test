@@ -26,6 +26,7 @@ class VideoAdmRepository implements IVideoAdmRepository {
         .instance
         .ref("/videos")
         .child(dto.channelId)
+        .child("video")
         .child(dto.name);
 
     var task = await file.putFile(dto.file);
@@ -33,5 +34,21 @@ class VideoAdmRepository implements IVideoAdmRepository {
     var videoUrl = await task.ref.getDownloadURL();
 
     return UploadVideoOutputDTO(videoUrl: videoUrl);
+  }
+
+  @override
+  Future<UploadThumbnailOutputDTO> uploadThumbnail(UploadThumbnailInputDTO dto) async {
+    var file = FirebaseStorage
+        .instance
+        .ref("/videos")
+        .child(dto.channelId)
+        .child("thumbnail")
+        .child(dto.name);
+
+    var task = await file.putFile(dto.file);
+
+    var thumbnailUrl = await task.ref.getDownloadURL();
+
+    return UploadThumbnailOutputDTO(thumbnailUrl: thumbnailUrl);
   }
 }

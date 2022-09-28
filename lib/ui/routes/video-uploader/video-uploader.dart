@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:youtube_getx/modules/auth/domain/user.dart';
 import 'package:youtube_getx/modules/auth/factory/auth-facade.factory.dart';
 import 'package:youtube_getx/modules/video-adm/facade/video-adm.facade.interface.dart';
@@ -46,15 +48,27 @@ class _VideoUploaderState extends State<VideoUploader> {
     }
   }
 
+  Future<File> _getThumbnail() async {
+    var path = await VideoThumbnail.thumbnailFile(
+      video: _file!.path,
+      imageFormat: ImageFormat.WEBP,
+    );
+
+    return File(path!);
+  }
+
   _handleVideoUpload() async {
     try {
       setState(() {
         _uploadingVideo = true;
       });
 
+      var thumbnail = await _getThumbnail();
+
       await videoAdm().saveVideo(
         SaveVideoInputDTO(
           file: _file!,
+          thumbnail: thumbnail,
           channelId: _currentUser.id,
           name: _videoNameController.text,
           duration: _videoController!.value.duration.inSeconds,
@@ -73,6 +87,7 @@ class _VideoUploaderState extends State<VideoUploader> {
         _file = null;
       });
     } catch(e) {
+      print(e);
       setState(() {
         _uploadingVideo = false;
       });

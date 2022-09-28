@@ -55,7 +55,12 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("YouTube"),
+      title: GestureDetector(
+        child: Text("YouTube"),
+        onTap: () {
+          Navigator.pushReplacementNamed(context, HOME_ROUTE);
+        },
+      ),
       automaticallyImplyLeading: false,
       actions: [
         PopupMenuButton<String>(

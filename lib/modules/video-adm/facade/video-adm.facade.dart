@@ -14,6 +14,7 @@ class VideoAdmFacade implements IVideoAdmFacade {
     return _uploadVideo.execute(
       UseCaseUploadVideoInputDTO(
           name: dto.name,
+          thumbnail: dto.thumbnail,
           duration: dto.duration,
           channelId: dto.channelId,
           file: dto.file

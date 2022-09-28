@@ -7,8 +7,9 @@ class UseCaseUploadVideoInputDTO {
   String name;
   int duration;
   File file;
+  File thumbnail;
 
-  UseCaseUploadVideoInputDTO({ required this.channelId, required this.name, required this.duration, required this.file });
+  UseCaseUploadVideoInputDTO({ required this.channelId, required this.name, required this.duration, required this.file, required this.thumbnail });
 }
 
 abstract class IUploadVideo {

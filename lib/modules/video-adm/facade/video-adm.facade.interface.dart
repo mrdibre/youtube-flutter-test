@@ -7,8 +7,9 @@ class SaveVideoInputDTO {
   String name;
   int duration;
   File file;
+  File thumbnail;
 
-  SaveVideoInputDTO({ required this.channelId, required this.name, required this.duration, required this.file });
+  SaveVideoInputDTO({ required this.channelId, required this.name, required this.duration, required this.file, required this.thumbnail });
 }
 
 abstract class IVideoAdmFacade {
